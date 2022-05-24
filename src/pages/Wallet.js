@@ -12,12 +12,17 @@ class Wallet extends React.Component {
             {
               // email do usuario
             }
-            { userData }
+            { `Email: ${userData}` }
           </span>
           {
             // valor das despesas com total certeza irei nmodificar
           }
-          <span data-testid="total-field">  0 </span>
+          <span data-testid="total-field">
+            {' '}
+            ` Despesas Totais R$0,00`
+            `
+            {' '}
+          </span>
           {
             // valor de qual Moeda estamos olhando
           }
