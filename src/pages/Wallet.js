@@ -9,8 +9,19 @@ class Wallet extends React.Component {
       <main className="container">
         <header className="header-waller">
           <span data-testid="email-field">
+            {
+              // email do usuario
+            }
             { userData }
           </span>
+          {
+            // valor das despesas com total certeza irei nmodificar
+          }
+          <span data-testid="total-field">  0 </span>
+          {
+            // valor de qual Moeda estamos olhando
+          }
+          <span data-testid="header-currency-field"> BRL</span>
         </header>
       </main>
     );
