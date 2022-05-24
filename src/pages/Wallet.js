@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { fetchApi } from '../actions';
 
 class Wallet extends React.Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchApi());
+  }
+
   render() {
     const { userData } = this.props;
     return (

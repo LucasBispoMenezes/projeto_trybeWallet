@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import addUserToState from '../actions';
+import { addUserToState } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -43,8 +43,8 @@ class Login extends React.Component {
     const dados = {
       email,
     };
+    addStateGlobal(dados);
     history.push('/carteira');
-    addStateGlobal(addUserToState(dados));
   }
 
   render() {
@@ -91,8 +91,8 @@ class Login extends React.Component {
     );
   }
 }
-const mapDispatchToProps = (dispach) => ({
-  addStateGlobal: (state) => dispach(state),
+const mapDispatchToProps = (dispatch) => ({
+  addStateGlobal: (state) => dispatch(addUserToState(state)),
 });
 
 Login.propTypes = {
