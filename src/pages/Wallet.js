@@ -1,159 +1,163 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { fetchApi } from '../actions';
-import Loading from './Loading';
+import { fetchApi, fetchApiExpense } from '../actions';
+// import Loading from './Loading';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
-      expenses: [],
-      valueInput: '',
-      descriptionInput: '',
-      currencies: '',
-      pay: '',
-      tag: '',
+      id: 0,
+      value: 0,
+      description: 'as',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
   }
 
   componentDidMount() {
-    const { DispatchKeys } = this.props;
-    DispatchKeys(fetchApi());
+    const { dispatchKeys } = this.props;
+    dispatchKeys(fetchApi());
   }
 
-  handleClick = ({ target }) => {
+  handleChange = ({ target }) => {
     this.setState({
       [target.name]: target.value,
     });
   }
 
-  /*   fetchApiClick = async () => {
-    const URL = 'https://economia.awesomeapi.com.br/json/all';
-    const response = await fetch(URL);
-    const data = await response.json();
-    const moedaValue = Object.values(data);
-    this.setState({
-      currencie: moedaValue,
-    }, () => {
-      const { currencie, currencies } = this.state;
-      const apiValueFilted = currencie.find((currency) => currency.code === currencies);
-      const value = apiValueFilted.ask;
-      const value1 = +value;
-      console.log(value1.toFixed(2));
-    });
-  } */
+     handleApiClick = () => {
+       this.setState((prevState) => ({
+         id: prevState.id + 1,
+       }));
+       const { dispatchExpense } = this.props;
+       dispatchExpense(this.state);
+       this.setState({
+         value: 0,
+       });
+     };
 
-  render() {
-    const { userData, keysCurrencies, load } = this.props;
-    return load ? <Loading /> : (
-      <main className="container">
-        <header className="header-waller">
-          <span data-testid="email-field">
-            {
-              // email do usuario
-            }
-            { `Email: ${userData}` }
-          </span>
-          {
-            // valor das despesas com total certeza irei nmodificar
-          }
-          <span data-testid="total-field">
-            {' '}
-            ` Despesas Totais R$0,00`
-            `
-            {' '}
-          </span>
-          {
-            // valor de qual Moeda estamos olhando
-          }
-          <span data-testid="header-currency-field"> BRL</span>
-        </header>
-        <form className="forms-currente">
-          <label htmlFor="valueInput">
-            Valor:
-            <input
-              type="text"
-              data-testid="value-input"
-              className="valueInput"
-              name="valueInput"
-              id="valueInput"
-              onChange={ this.handleClick }
-            />
-          </label>
-          <label htmlFor="descriptionInput">
-            descrição:
-            <input
-              type="text"
-              data-testid="description-input"
-              className="descriptionInput"
-              id="descriptionInput"
-              name="descriptionInput"
-              onChange={ this.handleClick }
-            />
-          </label>
-          <label htmlFor="currencies">
-            Moeda:
-            <select id="currencies" name="currencies" onChange={ this.handleClick }>
-              {keysCurrencies.map((currency) => (
-                <option
-                  key={ currency }
-                  value={ currency }
-                >
-                  {currency}
+     currencyConverter = () => {
+       const { valorReduce } = this.props;
+       return valorReduce.reduce((acc, cur) => acc + (cur.value
+        * cur.exchangeRates[cur.currency].ask), 0).toFixed(2);
+     }
 
-                </option>))}
-            </select>
-          </label>
-          <label htmlFor="pay">
-            Pagamento:
-            <select
-              id="pay"
-              data-testid="method-input"
-              name=" pay"
-              onChange={ this.handleClick }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">Cartão de crédito</option>
-              <option value="Cartão de débito">Cartão de débito</option>
-            </select>
-          </label>
-          <label htmlFor="tag">
-            Tag:
-            <select
-              id="tag"
-              data-testid="tag-input"
-              name="tag"
-              onChange={ this.handleClick }
-            >
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
-          <button type="button" onClick={ this.fetchApiClick }>Adicionar Dispesas</button>
-        </form>
+     render() {
+       const { value } = this.state;
+       const { userData,
+         keysCurrencies,
+         /* load */ } = this.props;
+       return (
+         <main className="container">
+           <header className="header-waller">
+             <span data-testid="email-field">
+               { `Email: ${userData}` }
+             </span>
+             { }
+             <span data-testid="total-field">
+               { this.currencyConverter()}
+             </span>
+             {
+               // valor de qual Moeda estamos olhando
+             }
+             <span data-testid="header-currency-field"> BRL</span>
+           </header>
+           <form className="forms-currente">
+             <label htmlFor="valueInput">
+               <input
+                 type="text"
+                 data-testid="value-input"
+                 className="valueInput"
+                 name="value"
+                 id="valueInput"
+                 onChange={ this.handleChange }
+                 value={ value }
+               />
+             </label>
+             <label htmlFor="descriptionInput">
+               descrição:
+               <input
+                 type="text"
+                 data-testid="description-input"
+                 className="descriptionInput"
+                 id="descriptionInput"
+                 name="description"
+                 onChange={ this.handleChange }
+               />
+             </label>
+             <label htmlFor="currencies">
+               Moeda:
+               <select id="currencies" name="currency" onChange={ this.handleChange }>
+                 {keysCurrencies.map((currency) => (
+                   <option
+                     key={ currency }
+                     value={ currency }
+                   >
+                     {currency}
 
-      </main>
-    );
-  }
+                   </option>))}
+               </select>
+             </label>
+             <label htmlFor="pay">
+               Pagamento:
+               <select
+                 id="pay"
+                 data-testid="method-input"
+                 name="method"
+                 onChange={ this.handleChange }
+               >
+                 <option value="Dinheiro">Dinheiro</option>
+                 <option value="Cartão de crédito">Cartão de crédito</option>
+                 <option value="Cartão de débito">Cartão de débito</option>
+               </select>
+             </label>
+             <label htmlFor="tag">
+               Tag:
+               <select
+                 id="tag"
+                 data-testid="tag-input"
+                 name="tag"
+                 onChange={ this.handleChange }
+               >
+                 <option value="Alimentação">Alimentação</option>
+                 <option value="Lazer">Lazer</option>
+                 <option value="Trabalho">Trabalho</option>
+                 <option value="Transporte">Transporte</option>
+                 <option value="Saúde">Saúde</option>
+               </select>
+             </label>
+             <button
+               type="button"
+               onClick={ this.handleApiClick }
+             >
+               Adicionar despesa
+             </button>
+           </form>
+         </main>
+       );
+     }
 }
 const mapStateToProps = (state) => ({
+  valorReduce: state.wallet.expenses,
   keysCurrencies: state.wallet.currencies,
   userData: state.user.email,
   load: state.wallet.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
-  DispatchKeys: (func) => dispatch(func),
+  dispatchKeys: (func) => dispatch(func),
+  dispatchExpense: (state) => dispatch(fetchApiExpense(state)),
 });
 
 Wallet.propTypes = {
+  dispatchExpense: propTypes.func.isRequired,
   userData: propTypes.string.isRequired,
-  DispatchKeys: propTypes.func.isRequired,
+  dispatchKeys: propTypes.func.isRequired,
   keysCurrencies: propTypes.arrayOf(propTypes.array).isRequired,
-  load: propTypes.bool.isRequired,
+  // load: propTypes.bool.isRequired,
+  valorReduce: propTypes.arrayOf().isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
