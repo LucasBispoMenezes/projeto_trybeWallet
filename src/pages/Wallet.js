@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { fetchApi, fetchApiExpense } from '../actions';
+import Table from '../Component/ThTabela';
 // import Loading from './Loading';
 
 class Wallet extends React.Component {
@@ -9,7 +10,7 @@ class Wallet extends React.Component {
     super();
     this.state = {
       id: 0,
-      value: 0,
+      value: '',
       description: 'as',
       currency: 'USD',
       method: 'Dinheiro',
@@ -35,7 +36,7 @@ class Wallet extends React.Component {
        const { dispatchExpense } = this.props;
        dispatchExpense(this.state);
        this.setState({
-         value: 0,
+         value: 0.00,
        });
      };
 
@@ -49,6 +50,7 @@ class Wallet extends React.Component {
        const { value } = this.state;
        const { userData,
          keysCurrencies,
+         valorReduce,
          /* load */ } = this.props;
        return (
          <main className="container">
@@ -67,6 +69,7 @@ class Wallet extends React.Component {
            </header>
            <form className="forms-currente">
              <label htmlFor="valueInput">
+               Valor:
                <input
                  type="text"
                  data-testid="value-input"
@@ -136,6 +139,24 @@ class Wallet extends React.Component {
                Adicionar despesa
              </button>
            </form>
+           <table>
+             <tr>
+               <th>Descrição</th>
+               <th>Tag</th>
+               <th>Método de pagamento</th>
+               <th>Valor</th>
+               <th>Moeda</th>
+               <th>Câmbio utilizado</th>
+               <th>Valor convertido</th>
+               <th>Moeda de conversão</th>
+               <th>Editar/Excluir</th>
+             </tr>
+             {valorReduce.map((expense, index) => (<Table
+               expense={ expense }
+               index={ index }
+               key={ index }
+             />))}
+           </table>
          </main>
        );
      }
