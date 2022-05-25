@@ -154,7 +154,7 @@ class Wallet extends React.Component {
              {valorReduce.map((expense, index) => (<Table
                expense={ expense }
                index={ index }
-               key={ index }
+               key={ expense.id }
              />))}
            </table>
          </main>

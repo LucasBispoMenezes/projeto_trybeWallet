@@ -5,19 +5,24 @@ class Table extends React.Component {
   render() {
     const { expense, index } = this.props;
     const { currency, exchangeRates } = expense;
+    let { value } = expense;
+    value = +value;
     let cambio = exchangeRates[currency].ask;
-    cambio = Number(cambio).toFixed(2);
+    cambio = Number(cambio);
     return (
       <tr key={ index }>
-        <th>{expense.description}</th>
-        <th>{expense.tag}</th>
-        <th>{expense.method}</th>
-        <th>{expense.value}</th>
-        <th>{exchangeRates[currency].name}</th>
-        <th>{ cambio }</th>
-        <th>{(cambio * expense.value).toFixed(2)}</th>
-        <th>Real</th>
-        <th>
+        <td>{expense.description}</td>
+        <td>{expense.tag}</td>
+        <td>{expense.method}</td>
+        <td>{Number(expense.value).toFixed(2)}</td>
+        <td>{exchangeRates[currency].name}</td>
+        {
+        // dica do kelder
+        }
+        <td>{ cambio.toFixed(2) }</td>
+        <td>{(cambio * value).toFixed(2)}</td>
+        <td>Real</td>
+        <td>
           <button
             type="button"
             data-testid="edit-btn"
@@ -30,7 +35,7 @@ class Table extends React.Component {
           >
             Excluir
           </button>
-        </th>
+        </td>
       </tr>);
   }
 }
