@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { fetchApi, fetchApiExpense } from '../actions';
+import { fetchApi, fetchApiExpense, deleteExpenseToState } from '../actions';
 import Table from '../Component/ThTabela';
 // import Loading from './Loading';
 
@@ -30,20 +30,26 @@ class Wallet extends React.Component {
   }
 
      handleApiClick = () => {
-       this.setState((prevState) => ({
-         id: prevState.id + 1,
-       }));
        const { dispatchExpense } = this.props;
        dispatchExpense(this.state);
        this.setState({
          value: 0.00,
        });
+       this.setState((prevState) => ({
+         id: prevState.id + 1,
+       }));
      };
 
      currencyConverter = () => {
        const { valorReduce } = this.props;
        return valorReduce.reduce((acc, cur) => acc + (cur.value
         * cur.exchangeRates[cur.currency].ask), 0).toFixed(2);
+     }
+
+     handleClickDelete = ({ target: { id } }) => {
+       const { valorReduce, deleteExpense } = this.props;
+       const itenDelete = valorReduce.filter((iten) => iten.id !== +id);
+       deleteExpense(itenDelete);
      }
 
      render() {
@@ -151,10 +157,11 @@ class Wallet extends React.Component {
                <th>Moeda de conversão</th>
                <th>Editar/Excluir</th>
              </tr>
-             {valorReduce.map((expense, index) => (<Table
+             {valorReduce.map((expense) => (<Table
                expense={ expense }
-               index={ index }
+               index={ expense.id }
                key={ expense.id }
+               handleClickDelete={ this.handleClickDelete }
              />))}
            </table>
          </main>
@@ -170,6 +177,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   dispatchKeys: (func) => dispatch(func),
   dispatchExpense: (state) => dispatch(fetchApiExpense(state)),
+  deleteExpense: (state) => dispatch(deleteExpenseToState(state)),
 });
 
 Wallet.propTypes = {

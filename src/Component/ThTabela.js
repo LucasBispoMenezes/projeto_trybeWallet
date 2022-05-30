@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 
 class Table extends React.Component {
   render() {
-    const { expense, index } = this.props;
+    const { expense, index, handleClickDelete } = this.props;
     const { currency, exchangeRates } = expense;
     let { value } = expense;
     value = +value;
@@ -16,9 +16,6 @@ class Table extends React.Component {
         <td>{expense.method}</td>
         <td>{Number(expense.value).toFixed(2)}</td>
         <td>{exchangeRates[currency].name}</td>
-        {
-        // dica do kelder
-        }
         <td>{ cambio.toFixed(2) }</td>
         <td>{(cambio * value).toFixed(2)}</td>
         <td>Real</td>
@@ -32,6 +29,8 @@ class Table extends React.Component {
           <button
             type="button"
             data-testid="delete-btn"
+            onClick={ handleClickDelete }
+            id={ index }
           >
             Excluir
           </button>

@@ -4,6 +4,7 @@ export const ADD_API_TO_STATE = 'ADD_API_TO_STATE';
 export const LOADING_ENABLED = 'LOADING_ENABLED';
 export const LOADING_DISABLED = 'LOADING_DISABLED';
 export const ADD_EXPENSE_TO_STATE = 'ADD_EXPENSE_TO_STATE';
+export const DELETE_EXPENSE_TO_STATE = 'DELETE_EXPENSE_TO_STATE';
 
 export const addUserToState = (user) => ({
   type: ADD_USER_TO_STATE,
@@ -27,6 +28,10 @@ export const addExpenseToState = (payload) => ({
   type: ADD_EXPENSE_TO_STATE,
   payload,
   loading: false,
+});
+export const deleteExpenseToState = (payload) => ({
+  type: DELETE_EXPENSE_TO_STATE,
+  payload,
 });
 
 export const fetchApi = () => async (dispatch) => {

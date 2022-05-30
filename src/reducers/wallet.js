@@ -4,6 +4,7 @@ import {
   LOADING_ENABLED,
   ADD_EXPENSE_TO_STATE,
   LOADING_DISABLED,
+  DELETE_EXPENSE_TO_STATE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -34,6 +35,11 @@ const Wallet = (state = INITIAL_STATE, action) => {
       ...state,
       loading: false,
       expenses: [...state.expenses, action.payload],
+    };
+  case DELETE_EXPENSE_TO_STATE:
+    return {
+      ...state,
+      expenses: [...action.payload],
     };
   default:
     return state;
