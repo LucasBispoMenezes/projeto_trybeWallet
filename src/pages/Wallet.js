@@ -187,6 +187,7 @@ Wallet.propTypes = {
   keysCurrencies: propTypes.arrayOf(propTypes.array).isRequired,
   // load: propTypes.bool.isRequired,
   valorReduce: propTypes.arrayOf().isRequired,
+  deleteExpense: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

@@ -43,4 +43,6 @@ export default Table;
 Table.propTypes = {
   index: propTypes.number.isRequired,
   expense: propTypes.arrayOf().isRequired,
+  handleClickDelete: propTypes.func.isRequired,
+
 };
