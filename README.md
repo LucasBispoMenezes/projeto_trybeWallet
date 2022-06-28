@@ -1,6 +1,5 @@
 # Projeto TrybeWaller
-> Projeto desenvolvido na [Trybe][01], no modulo de front-end, utilizando react, redux e fetchApi
-[01]: https://www.betrybe.com/
+> Projeto desenvolvido na  [Trybe](https://www.betrybe.com/), no modulo de front-end, utilizando react, redux e fetchApi
 
 ## Como iniciar o projeto
 
